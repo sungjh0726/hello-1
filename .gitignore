@@ -1,3 +1,4 @@
 .vscode
-b.txt
+hw_*
 p.py
+_*.py
