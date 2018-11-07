@@ -14,13 +14,13 @@ if cmd.find(',') == -1:
     print(error_msg)
     exit()
 
-isExistsComma = False
+is_not_exists_comma = True
 for i in cmd:   #abc
     if i == ',':
-        isExistsComma = True
+        is_not_exists_comma = False
         break
 
-if isExistsComma == False:
+if is_not_exists_comma:
     print(error_msg)
     exit()
 
