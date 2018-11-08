@@ -14,9 +14,10 @@ def div(a, b):
     return a / b
 
 
-
 def input_calc():
     cmd = input("수식을 입력하세요(usage: 2 + 3)> ")
+    if (cmd == 'q'): exit()
+
     cmds = cmd.split(' ')
 
     # a = cmds[0]
@@ -49,5 +50,5 @@ def input_calc():
         print("Answer is {:d}".format(r)) 
 
 
-while(True):
+while True:
     input_calc()
