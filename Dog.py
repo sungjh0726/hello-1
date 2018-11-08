@@ -51,3 +51,5 @@ print("cal=", Calc.plus(1, 2))
 # p.__read_diary()
 
 print("aaaaa", d.name, p.name, Puppy.name)
+
+print("QQQ>>", isinstance(p, Dog), p == None)
