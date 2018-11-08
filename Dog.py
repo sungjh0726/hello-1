@@ -11,10 +11,10 @@ class Dog:
 			print("destroy!!")
 
 class Puppy(Dog):
-	name = 'aa'
+	name = "강아지"
 
 	def __init__(self):
-		# self.name = "Puppy"
+		self.name = "Puppy"
 		self.color = "Red"
 		print("QQQQ> Puppy was Born", self.name)
 	
