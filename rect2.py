@@ -20,7 +20,7 @@ class 사각형:
             y = x
         else:
             y = Casting.to_int(data[1])
-            
+
         self.__새넓이(x, y)
 
     def __새넓이(self, x, y):
@@ -38,6 +38,8 @@ class 정사각형(사각형):
     name = "정사각형"
     msg = "한변의 길이는?? (usage: 길이) > "
 
+
+// ------------ 이하 main flow 입니다~  --------------------
 
 all_rects = [사각형(), 직사각형(), 평행사변형(), 정사각형()]
 

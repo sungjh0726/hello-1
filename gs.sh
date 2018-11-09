@@ -1,6 +1,8 @@
 #!/bin/sh
 
+DATE=`date +%Y-%m-%d`
+
 git add --all
-git commit -am "lesson source"
+git commit -am "${DATE} lesson"
 
 git push
