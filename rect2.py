@@ -46,4 +46,4 @@ while True:
 
     rect_index = Casting.to_int(rect_type) - 1
     rect = all_rects[rect_index]
-    x, y = input_data()
+    input_data()
