@@ -7,6 +7,6 @@ if [ $# -gt 0 ]; then
 fi
 
 git add --all
-git commit -am "${DATE} lesson"
+git commit -am "${MSG}"
 
 git push
