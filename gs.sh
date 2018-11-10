@@ -1,12 +1,15 @@
-#!/bin/sh
+dsfdsakfjkals;dsfdsakfjkalssfdas
 
-DATE=`date +%Y-%m-%d" "%H:%M`
-MSG="$DATE lesson"
-if [ $# -gt 0 ]; then
-    MSG="$1"
-fi
-
-git add --all
-git commit -am "${MSG}"
-
-git push
+a
+sdf
+dsfdsakfjkalssfdasdfasd
+dsfdsakfjkalsdsa
+f
+dsfdsakfjkalssfdasdfasdf
+as
+dsfdsakfjkals
+dsfdsakfjkalsdsa
+f
+ads
+d
+sasdfa
