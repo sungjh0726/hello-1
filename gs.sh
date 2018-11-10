@@ -1,10 +1,9 @@
 #!/bin/sh
 
 DATE=`date +%Y-%m-%d`
+echo $DATE
 
 git add --all
 git commit -am "${DATE} lesson"
-
-########## TTTTTTTTT
 
 git push
