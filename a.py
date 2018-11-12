@@ -1,14 +1,39 @@
-print("Hello, World!!")
+class TestClass:
+    name = "TEST"
 
-11111111111111111111
-11111111111111111111
-11111111111111111111
-11111111111111111111
-5555555555555555555
-11111111111111111111
-11111111111111111111
-11111111111111111111
+    def __init__(self):
+        print("TTTTTTTTTTTTTT")
 
-77777777777777777777
+    def static_method():
+        print("STATIC!!")
 
-print("1234")
+    def get_name(self):
+        print("QQQQQQQQQQQQQQQQQQQQ")
+        return self.name
+
+    def area(self, x, y):
+        return x * y
+
+class Child(TestClass):
+    def __init__(self):
+        super().__init__()
+        print("My init!!!")
+
+    def get_name(self):
+        t = super().get_name()
+        return "Child Name:" + self.name
+
+    def area(self, x, y):
+        t = super().area(x, y)
+        return t / 2
+
+test = TestClass()
+child = Child()
+
+getattr(test, 'get_name')()
+getattr(TestClass, 'static_method')()
+
+# print("11111>>", child.get_name())
+
+# c = callable(test.get_name)
+# print("cccccccc>>", c)
