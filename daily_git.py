@@ -1,5 +1,10 @@
+#coding=utf-8
 import sys, os
 import datetime
+
+def gitcmd(cmd):
+    # print("gitcmd>", cmd)
+    os.system(cmd)
 
 sa = sys.argv # 0:실행파일, 1: 메시지 부분
 
@@ -11,14 +16,10 @@ has_msg = len(sa) >= 2
 if has_msg:
     commit_msg = sa[1]
 
-if has_msg == False:
+else:
     input_msg = input("Default Message?? (Yes: Enter or input message) > ")
     if input_msg != '':
         commit_msg = input_msg
-
-def gitcmd(cmd):
-    print("gitcmd>", cmd)
-    os.system(cmd)
 
 print("commit ... ", commit_msg)
 gitcmd("git add --all")
