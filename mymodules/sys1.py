@@ -1,11 +1,22 @@
 import sys, os
 
+print("SSSS>>", sys.path)
+
 print("__file__ ==>", __file__)
 print("dirname ==>", os.path.dirname(__file__))
 print("abspath ==>", os.path.abspath(__file__))
 
-# from mysys import clear
-# clear()
+dir_name = os.path.dirname(__file__)
+a_path = os.path.abspath(dir_name)
+up_dir = os.path.join(a_path, '..')   # c:\ws\...   afdf/sdfdf/
+sys.path.append(os.path.abspath(up_dir))
+
+print("a_path>>>>", a_path)
+print("BASE CAMP>>>", os.path.abspath(up_dir))
+print("++++++++++++++>>", sys.path)
+
+from mysys import clear
+clear()
 
 print(sys.argv, len(sys.argv))
 
