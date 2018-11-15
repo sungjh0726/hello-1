@@ -4,7 +4,8 @@ class Dog:
 	def __init__(self, name):
 		self.name = name
 		self.color = "Blue"
-		# print(self.name, "was Born")
+		print(self.name, "was Born")
+		print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
 
 	def speak(self):
 		print("YELP!", self.name)
