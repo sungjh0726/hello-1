@@ -9,7 +9,9 @@ def gitcmd(cmd):
 sa = sys.argv # 0:실행파일, 1: 메시지 부분
 
 now = datetime.datetime.now()
-print(now)
+print("##########################", now)
+print("##########################", now)
+print("##########################", now)
 default_msg = "{} 강의".format(now.strftime('%Y-%m-%d'))
 commit_msg = default_msg
 has_msg = len(sa) >= 2
