@@ -4,6 +4,7 @@ import mysys
 # 2018-11-15, 13명
 # dfafsafafasdfa
 #############################
+print("QQQQQQQQQQQQQQQQQQQQQ")
 g_students = ['엄희진', '이준수', '한진선', '배준홍', '김건우', '김도혜', '성재현', '백영래', '이현주', '김정민', '김주동', '이현욱', '김영모']
 
 idx = 0
