@@ -1,6 +1,6 @@
 class Casting:
-    def to_int(s):
-        if type(s) == str:
-            return int(s.strip())
+    def to_int(ns):
+        if type(ns) == str:
+            return int(ns.strip())
         else:
-            return s
+            return ns

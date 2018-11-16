@@ -11,12 +11,14 @@ a_path = os.path.abspath(dir_name)
 up_dir = os.path.join(a_path, '..')   # c:\ws\...   afdf/sdfdf/
 sys.path.append(os.path.abspath(up_dir))
 
+from ttt.cls import Parent
+
 print("a_path>>>>", a_path)
 print("BASE CAMP>>>", os.path.abspath(up_dir))
 print("++++++++++++++>>", sys.path)
 
 from mysys import clear
-clear()
+# clear()
 
 print(sys.argv, len(sys.argv))
 
