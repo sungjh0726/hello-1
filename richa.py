@@ -1,4 +1,5 @@
-fname = '/Users/jade/Documents/리치안자산관리.csv'
+# fname = '/Users/jade/Documents/리치안자산관리.csv'
+fname = '리치안자산관리2.csv'
 
 def cts(ct):
     ret = [0, 0, 0, 0]
