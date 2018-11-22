@@ -12,8 +12,7 @@ print(y, type(y), ''.join(y))
 def make_name():
     sung = random.choice(fam_names)
     name = random.sample(first_names, 2)
-
-
+    return sung, name
 
 conn = sqlite3.connect("t.db")
 
@@ -21,7 +20,7 @@ with conn:
     cur = conn.cursor()
     sql = "insert into Student(name) values(?)"
 
-    p = ('김일수')
+    p = ('김일수',)
     print(type(p))
     # cur.execute(sql, ['김일수'])
     cur.execute(sql, p)
