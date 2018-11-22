@@ -7,7 +7,7 @@ if [ $# -gt 0 ]; then
     MSG="$1"
 fi
 
-git checkout master
+#git checkout master
 
 git diff --numstat origin/master
 
