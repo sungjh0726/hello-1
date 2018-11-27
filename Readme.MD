@@ -1,2 +1,0 @@
-TTTTTTTTTT
-한글이야!!
