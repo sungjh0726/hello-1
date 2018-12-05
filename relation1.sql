@@ -23,6 +23,11 @@ select ceil(rand() * 100) from dual;
 insert into Prof(name, likecnt)
  select name, ceil(rand() * 100) from Student order by rand() limit 100;
 
+-- 과목별 학생수
+select subject, count(*) from Enroll group by subject;
+
+-- 동일과목(한과목)에 중복 학생 존재 여부 체크
+select subject, student, count(*) from Enroll group by subject, student having count(*) > 1;
 
 
 select * from Prof;
