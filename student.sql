@@ -1,3 +1,34 @@
+-- append gender column
+alter table Student add column gender bit not null default 0;
+
+update Student set gender = (case when name like '%혜%' or name like '%솔%' 
+                                or name like '%숙%' or name like '%민%'
+                                or name like '%현%'  or name like '%희%' 
+                                or name like '%영%' or name like '%주%' then 0 else 1 end)
+ where id > 0;
+                                
+update Student set gender = 1
+ where not (name like '%혜%' or name like '%솔%' 
+                                or name like '%숙%' or name like '%민%'
+                                or name like '%현%'  or name like '%희%' 
+                                or name like '%영%' or name like '%주%')
+  and id > 0;
+  
+select gender, count(*) from Student group by gender;
+
+select * from Student;
+
+
+update Student set gender = mod(id, 2);
+
+select * from Student;
+
+select count(*) from Student
+ where name like '%혜%' or name like '%솔%' or name like '%숙%' or name like '%민%'
+   or name like '%현%'  or name like '%희%' or name like '%영%' or name like '%주%';
+
+
+
 select birth, replace(substring(birth, 3), '-', '') from Student;
 
 update Student set birth = replace(substring(birth, 3), '-', '')
@@ -59,7 +90,8 @@ update Test set name=(select name from Student where id>2997) where id=3;
 
 
 select name from Student where id>2997;
-insert into Test(name) value('김이수');
+
+insert into Test(name) values('김이수'), ('김칠수');
 
 insert into Test set name='김삼수';
 
