@@ -31,6 +31,7 @@ select subject, student, count(*) from Enroll group by subject, student having c
 
 
 select * from Prof;
+select * from Student;
 
 insert into Subject(name, prof)
  select '국어', id from Prof order by rand() limit 10;
