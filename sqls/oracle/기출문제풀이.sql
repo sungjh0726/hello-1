@@ -165,7 +165,7 @@ select sub.*
  
 -- 14) 
 select e.first_name, e.salary, d.department_name
-  from Employees e left outer join Departments d on e.department_id = d.department_id
+  from Employees e inner join Departments d on e.department_id = d.department_id
  where d.department_name = 'Sales'
    and e.salary < (select avg(salary) from Employees where department_id = 100);
 
@@ -189,8 +189,8 @@ select min(d.department_name) department_name, to_char(e.hire_date, 'MM'), count
 select sub.*
   from (select d.department_name, e.first_name, e.salary, e.commission_pct
           from Employees e inner join Departments d on e.department_id = d.department_id
-         order by e.commission_pct desc nulls last ) sub
- where rownum <= 4
+         order by NVL(e.commission_pct,0) desc) sub
+ where rownum <= 40
  order by sub.salary desc;
  
 select hire_date, to_char(hire_date, 'Mon') from Employees;
