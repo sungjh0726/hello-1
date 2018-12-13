@@ -154,7 +154,6 @@ select max(d.department_name) department_name, to_char(e.hire_date, 'MM') mm, co
  order by department_name;
 
  
- 
 -- 16
 select d.department_name, e.first_name, e.salary, e.commission_pct
   from Employees e inner join Departments d on e.department_id = d.department_id
