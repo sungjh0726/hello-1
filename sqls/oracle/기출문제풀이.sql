@@ -37,6 +37,12 @@ select concat(concat(e.first_name, ' '), e.last_name) as emp_name, e.salary
    and e.salary between 9000 and 10000;
 
 select * from Employees;
+
+select rownum, rn
+  from (select rownum as rn, e.* from Employees e where rownum < 10 order by salary desc, employee_id);
+
+select rownum as rn, e.* from Employees e where rownum < 10 order by salary desc, employee_id;
+
 select employee_id, manager_id from Employees order by manager_id;
 
 select salary, trunc(salary, -1) from Employees;
