@@ -96,6 +96,8 @@ select stu.name '학생명', sbj_cnt '과목수', total '총점', round(average,
        ) sub inner join Student stu on sub.student = stu.id
  order by sub.average desc;
  
+select * from Pp;
+ 
  
 -- 3) 석차 표현 (@rownum 사용 또는 임시테이블사용)
 select (@rownum := @rownum + 1) as '석차', stu.name '학생명', sbj_cnt '과목수', total '총점', round(average,2) '평균', 
@@ -110,6 +112,9 @@ select (@rownum := @rownum + 1) as '석차', stu.name '학생명', sbj_cnt '과�
      group by e.student
        ) sub inner join Student stu on sub.student = stu.id, (select @rownum := 0) ttt
  order by sub.average desc, sbj_cnt desc;
+ 
+ 
+select s.*, (@rownum := @rownum + 1) from Subject s, (select @rownum := 0) rn;
 
 
 

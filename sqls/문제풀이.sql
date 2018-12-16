@@ -52,6 +52,8 @@ select max(sbj.name) sbj_name, avg(g.midterm + g.finalterm) / 2 avr, count(*) st
                inner join Subject sbj on e.subject = sbj.id
  group by sbj.id;
  
+ select * from ClubMember;
+ 
 
 select max(stu.name) stu_name, count(*) sbj_cnt,
                 sum(g.midterm + g.finalterm) total, 

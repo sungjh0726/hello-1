@@ -130,27 +130,6 @@ drop table Classroom;
 
 desc Prof;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 desc Club;
 select * from Club;
 
@@ -179,9 +158,91 @@ alter table Student add constraint foreign key fk_sss(dept) references Dept(id);
 
 drop table Dept;
 
+SELECT SUBSTRING_INDEX(SUBSTRING_INDEX(A.TEXT, ';', 3), ';', -1) SPILT_TEXT
+  FROM (SELECT 'A;B;C;D;E;F;G' TEXT) A;
 
 
+-- -------------------------------------------------------------------
 
-update jj set stu = 1
-  from Subject;
+select * from v_grade_enroll where subject = 1 order by avr; 
 
+select group_concat(avr) from v_grade_enroll where subject = 1 order by avr;
+
+select floor(avr / 10), count(*), group_concat( mod(avr, 10) SEPARATOR '' ), group_concat(avr)
+  from v_grade_enroll
+ where subject = 1
+ group by floor(avr / 10)
+;
+
+select * from v_grade_enroll;
+
+select subject, max(avr)
+  from v_grade_enroll
+ group by subject;
+ 
+  
+select * from Subject;
+
+
+-- ------------------------------------------------------------------- sp_grade_stem_leaf
+drop procedure if exists sp_grade_stem_leaf;
+
+delimiter $$
+create procedure sp_grade_stem_leaf(_subject_name varchar(31))
+begin
+    declare _stem tinyint;
+    declare _avr tinyint;
+    declare _done boolean default false;
+    
+    declare cur_avrs cursor for
+        select avr from v_grade_enroll where subject = (select id from Subject where name = _subject_name) order by avr;
+        
+    declare continue handler for not found 
+        set _done := true;
+        
+    drop table if exists tt;
+    
+    create temporary table tt(stem tinyint not null primary key, leaf varchar(1024), cnt smallint);
+        
+    open cur_avrs;
+    
+        loop1: LOOP
+            
+            fetch cur_avrs into _avr;
+            set _stem = floor(_avr / 10);
+            
+            IF exists(select * from tt where stem = _stem) THEN
+                update tt set leaf = concat(leaf, mod(_avr, 10)), cnt = cnt + 1
+                 where stem = _stem;
+                 
+            ELSE
+                insert into tt values(_stem, mod(_avr, 10), 1);
+            END IF;
+            
+            IF _done THEN
+                LEAVE loop1;
+            END IF;
+        
+        END LOOP loop1;
+    
+    close cur_avrs;
+    
+    select * from tt order by stem;
+end $$
+delimiter ;
+
+-- ------------------------------------------------------------------- sp_grade_stem_leaf  : END
+
+call sp_grade_stem_leaf('물리');
+
+-- select * from v_grade_enroll where avr = 100;
+-- select avr from v_grade_enroll where subject = 3 order by avr;
+
+-- desc Subject;
+-- select floor(avr / 10), max(avr) from v_grade_enroll group by floor(avr / 10);
+
+-- select * from v_grade_enroll where avr between 50 and 5 * 10 + 9;
+
+-- select id  from Subject where name = '역사';
+
+-- select subject from v_grade_enroll group by subject having count(*) > 1;

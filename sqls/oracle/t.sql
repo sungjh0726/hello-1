@@ -62,3 +62,7 @@ select e.job_id, max(j.job_title), sum(e.salary) tot
  
 select NVL(department_id, 0) from Employees where department_id is null;
 
+select employee_id, first_name from Employees where employee_id < 103
+ UNION ALL
+select first_name, employee_id from Employees where employee_id < 105;
+
