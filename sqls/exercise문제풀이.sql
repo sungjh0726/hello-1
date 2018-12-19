@@ -97,7 +97,7 @@ begin
 
     drop table if exists t_result;
     
-    create table t_result (
+    create temporary table t_result (
         subject smallint primary key,
         stu1 int unsigned,
         stu_name1 varchar(31),
@@ -116,7 +116,7 @@ begin
     
     drop table if exists t;
     
-    create table t(
+    create temporary table t(
         subject smallint, 
         student int unsigned,
         name varchar(31),
