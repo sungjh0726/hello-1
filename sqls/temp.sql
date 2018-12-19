@@ -160,6 +160,11 @@ drop table Dept;
 
 SELECT SUBSTRING_INDEX(SUBSTRING_INDEX(A.TEXT, ';', 3), ';', -1) SPILT_TEXT
   FROM (SELECT 'A;B;C;D;E;F;G' TEXT) A;
+  
+  
+select substring_index('a,b,c', ',', -1);
+
+select substring_index(substring_index('a,b,c', ',', 3), ',', -1);
 
 
 -- -------------------------------------------------------------------
@@ -246,3 +251,174 @@ call sp_grade_stem_leaf('물리');
 -- select id  from Subject where name = '역사';
 
 -- select subject from v_grade_enroll group by subject having count(*) > 1;
+
+
+
+-- ------------------------------------------------------------------------ 평가문제
+-- 1)
+drop view if exists v_students;
+
+create view v_students AS
+    select e.student, s.name, count(distinct e.subject) sbj_cnt, round(avg(g.midterm + g.finalterm) / 2) avr
+      from Enroll e inner join Grade g on e.id = g.enroll
+                    inner join Student s on e.student= s.id
+     group by e.student;
+
+select * from v_students;
+
+-- 2)
+drop function if exists f_student_avg;
+
+delimiter //
+create function f_student_avg(_student int)
+    returns tinyint
+BEGIN
+    return (select round(avg(g.midterm + g.finalterm) / 2)
+              from Grade g inner join Enroll e on g.enroll = e.id
+             where e.student = _student);
+END //
+delimiter ;
+
+select id, f_student_avg(id), name from Student limit 10;
+
+
+-- 3)
+drop trigger if exists tr_club_member;
+
+delimiter //
+create trigger tr_club_member
+    after insert on Club For Each Row
+BEGIN
+    insert into ClubMember(club, student)
+        select NEW.id, id from Student order by rand() limit 1;
+END //
+delimiter ;
+
+insert into Club(name) values('테니스부');
+
+
+-- 4)
+drop procedure if exists sp_reco_sbj;
+
+delimiter $$
+create procedure sp_reco_sbj()
+begin
+    declare _tot_avr int;
+    declare _tot_stu int;
+    declare _tot_likecnt int;
+    
+    drop table if exists t_reco;
+    
+    create temporary table t_reco (
+        sbj smallint unsigned primary key,
+        stucnt smallint,
+        avr decimal(5,2),
+        prof smallint unsigned,
+        sbjname varchar(31),
+        profname varchar(31),
+        likecnt smallint
+    );
+        
+    -- 과목별
+    insert into t_reco(sbj, stucnt, avr, prof, sbjname, profname, likecnt)
+        select e.subject, count(*), avg(g.midterm + g.finalterm) / 2, p.id, sbj.name, p.name, p.likecnt
+          from Enroll e inner join Grade g on e.id = g.enroll
+                        inner join Subject sbj on e.subject = sbj.id
+                        inner join Prof p on sbj.prof = p.id
+         group by e.subject
+      ;
+      
+    -- 학생은 중복 수강이 가능하므로 과목별 학생수의 총합을 구해 이것을 기준으로 비율을 정함!!
+    -- 강의를 한 교수만을 대상으로 전체 likecnt를 구해야 100분율로 나옴!!
+    select sum(avr), sum(stucnt), sum(likecnt)
+      into _tot_avr, _tot_stu, _tot_likecnt
+      from t_reco;
+      
+      
+    select (@rownum := @rownum + 1) ranking, sbjname, profname,
+        (avr / _tot_avr), (stucnt / _tot_stu), (likecnt / _tot_likecnt),
+        (avr / _tot_avr) * 30 + (stucnt / _tot_stu) * 30 + (likecnt / _tot_likecnt) * 40 score
+      from t_reco t, (select @rownum := 0) r
+     order by score desc;
+      
+end $$
+delimiter ;
+
+call sp_reco_sbj();
+
+
+-- 6)  ******************************************** cursor 사용
+drop procedure if exists sp_stu_top3_cursor;
+
+
+-- 6)  ******************************************** cursor 사용 X
+drop procedure if exists sp_stu_top3;
+
+delimiter $$
+create procedure sp_stu_top3()
+begin
+    declare _sbj_cnt tinyint;
+    declare i int default 0;
+    declare _avr tinyint;
+    declare _done boolean default false;
+    
+    declare cur_avrs cursor for
+        select * from t;
+        
+    declare continue handler for not found 
+        set _done := true;
+        
+        
+    drop table if exists t_result;
+    
+    create temporary table t_result(subject smallint, idx smallint, s1 int, s1name varchar(31), s2 int, s2name varchar(31), s3 int, s3name varchar(31));
+    
+    insert into t_result(subject, idx)
+    select v.subject, (@rownum := @rownum + 1) from (select distinct subject from v_grade_enroll) v, (select @rownum := 0) r;
+    
+    select * from t_result;
+    
+    
+    drop table if exists t;
+    
+    create temporary table t(subject smallint not null, student int, student_name varchar(31), idx smallint);
+    
+    select count(*) into _sbj_cnt from t_result;
+    
+    while i <= _sbj_cnt do
+        set i = i + 1;
+        
+        insert into t
+         select subject, student, (select name from Student where id = v.student), (@rn := @rn + 1)
+           from v_grade_enroll v, (select @rn := 0) rn
+          where subject = (select subject from t_result where idx = i) order by avr limit 3;
+        
+    end while;
+    
+    select * from t;
+    
+    -- non - cursor
+    -- update t_result ret 
+      --  set ret.s1 = (select student from t where subject = ret.subject and idx = 1),
+      --      ret.s2 = (select student from t where subject = ret.subject and idx = 2);
+            
+    update t_result ret inner join t on ret.subject = t.subject
+       set ret.s1 = t.student, ret.s1name = t.student_name
+     where t.idx = 1;
+     
+    update t_result ret inner join t on ret.subject = t.subject
+       set ret.s2 = t.student, ret.s2name = t.student_name
+     where t.idx = 2;
+     
+    update t_result ret inner join t on ret.subject = t.subject
+       set ret.s3 = t.student, ret.s3name = t.student_name
+     where t.idx = 3;
+            
+        
+    select * from t_result;
+    
+     
+end $$
+delimiter ;
+
+call sp_stu_top3();
