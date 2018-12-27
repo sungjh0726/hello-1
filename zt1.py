@@ -1,7 +1,22 @@
-import mig_util as mu
+import pymysql
+import t_util as tu
 
-conn_dooodb = mu.get_mysql_conn('dooodb')
-conn_dadb = mu.get_mysql_conn('dadb')
+
+def get_conn(db):
+    return pymysql.connect(
+        host='localhost',
+        user='dooo',
+        password='dooo!',
+        port=3306,
+        db=db,
+        charset='utf8')
+
+
+conn_dooodb = get_conn('dooodb')
+# conn_dadb = get_conn('dadb')
+conn_dadb = tu.get_mysql_conn('dadb')
+
+print(tu.get_count(conn_dooodb, 'Subject')[0])
 
 # read from source db
 with conn_dooodb:
@@ -14,14 +29,10 @@ with conn_dooodb:
 # write to target db
 with conn_dadb:
     cur = conn_dadb.cursor()
-    # cur.execute('truncate table Subject')
-    trc = mu.trunc_table(conn_dadb, 'Subject')
-    print("tuncated>>", trc)
+    cur.execute('truncate table Subject')
 
     sql = '''insert into Subject(id, name, prof, classroom)
                           values(%s, %s, %s, %s)'''
     cur.executemany(sql, rows)
     print("AffectedRowCount is", cur.rowcount)
     conn_dadb.commit()
-
-
