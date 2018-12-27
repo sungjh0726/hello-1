@@ -422,3 +422,46 @@ end $$
 delimiter ;
 
 call sp_stu_top3();
+
+
+-- ----------------------------------------------------------
+CREATE DEFINER=`dooo`@`172.17.0.1` PROCEDURE `sp_drop_foreign_key`(_table varchar(64))
+BEGIN
+    declare _constraint varchar(64);
+    declare _ref_table varchar(64);
+    
+    Declare _done boolean default False;
+    
+    Declare _cur CURSOR FOR
+        select constraint_name, table_name from INFORMATION_SCHEMA.KEY_COLUMN_USAGE
+         where CONSTRAINT_SCHEMA = database() and REFERENCED_TABLE_NAME = _table;
+        
+    Declare Continue Handler
+        For Not Found SET _done := True;
+        
+    drop table if exists t;
+    create table t (sqlstr varchar(1024));
+        
+    OPEN _cur;
+    
+        cur_loop: LOOP
+        
+            Fetch _cur into _constraint, _ref_table;
+            IF _done THEN
+                LEAVE cur_loop;
+            END IF;
+            
+            set @sql = concat('alter table ', _ref_table, ' drop foreign key ', _constraint);
+            insert into t values(@sql);
+            
+            PREPARE myQuery from @sql;
+            EXECUTE myQuery;
+            DEALLOCATE PREPARE myQuery;
+            
+        END LOOP cur_loop;
+        
+    CLOSE _cur;
+    
+    select * from t;
+
+END
