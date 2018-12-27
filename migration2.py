@@ -7,13 +7,12 @@ with connection:
     # cursor를 만들어줍니다
     cursor = connection.cursor()
 
-    sql = '''select * from Departments where department_id >= :dept_id'''
+    sql = '''select region_id, region_name from Regions'''
 
     # cursor.execute(sql, dept_id=30)
-    cursor.execute(sql, (30,))
+    cursor.execute(sql)
 
     rows = cursor.fetchall()
 
 for row in rows:
     print(row)
-
