@@ -11,7 +11,7 @@ with connection:
 
     #cursor.execute(sql, dept_id=30)
     cursor.execute(sql, (30,))
-    
+
     rows = cursor.fetchall()
 
 for row in rows:

@@ -9,6 +9,7 @@ def get_mysql_conn(db):
         db=db,
         charset='utf8')
 
+
 def get_count(conn, tbl, where = ''):
     cur = conn.cursor()
     sql = "select count(*) from " + tbl
