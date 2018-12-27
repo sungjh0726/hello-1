@@ -1,5 +1,9 @@
 import pymysql
+import cx_Oracle
 
+def get_oracle_conn():
+    return cx_Oracle.connect("hr", "hrpw", "localhost:1521/xe")
+    
 def get_mysql_conn(db):
     return pymysql.connect(
         host='localhost',

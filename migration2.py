@@ -1,7 +1,7 @@
-import cx_Oracle
+import mig_util as mu
 
-connection = cx_Oracle.connect("hr", "hrpw", "localhost:1521/xe")
-print(connection.version)
+connection = mu.get_oracle_conn()
+myconn = mu.get_mysql_conn('dadb')
 
 with connection:
     # cursor를 만들어줍니다
@@ -16,3 +16,21 @@ with connection:
 
 for row in rows:
     print(row)
+
+with myconn:
+    cur = myconn.cursor()
+    cur.execute("drop table if exists Regions")
+
+    sql_create = '''
+        create table Regions(
+            id smallint not null auto_increment primary key,
+            region_name varchar(36)
+        )
+    '''
+    cur.execute(sql_create)
+
+    sql_insert = "insert into Regions(id, region_name) values(%s, %s)"
+    cur.executemany(sql_insert, rows)
+    print("AffectedRowCount is", cur.rowcount)
+
+
