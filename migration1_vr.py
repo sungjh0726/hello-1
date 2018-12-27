@@ -15,6 +15,14 @@ with conn_dooodb:
     cur.execute(sql, (rand_row_count,))
     dooo_list = cur.fetchall()
 
+# lst = []
+# for i in dooo_list:
+#     l = list(i)
+#     l.append(i[3])
+#     lst.append(l)
+
+# print("lst=", lst)
+
 with conn_dadb:
     da_cnt = mu.get_count(conn_dadb, table)
 
@@ -37,14 +45,15 @@ with conn_dadb:
                               else classroom = %s end)
                   '''
         cur.executemany(sql, dooo_list)
+        # cur.executemany(sql, lst)
         curcnt = cur.rowcount
 
         if rand_row_count == curcnt:
             print("Whole data is OK", "Verified count is", rand_row_count)
-            
+
         else:
             print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! Fail",
-              rand_row_count, curcnt)
+                  rand_row_count, curcnt)
 
         # sql = "select " + cols + " from " + table + " where id = %s"
         # for row in dooo_list:
