@@ -13,5 +13,9 @@ with conn_dadb:
     cur.execute(sql)
     rows = cur.fetchall()
 
+    sql = "call sp_drop_foreign_key('Department')"
+    cur.execute(sql)
+    rows = cur.fetchall()
+
 for row in rows:
     print(row)

@@ -1,5 +1,13 @@
 import cx_Oracle
 
+import os
+print("----------------------------------------------")
+print(os.environ['OCI_LIB'])
+print("----------------------------------------------")
+# os.setenv("ORACLE_HOME"="/usr/lib/oracle/12.1/client64")
+# os.getenv("LD_LIBRARY_PATH")
+
+# connection = cx_Oracle.connect("hr/hrpw@localhost/xe")
 connection = cx_Oracle.connect("hr", "hrpw", "localhost:1521/xe")
 print(connection.version)
 
