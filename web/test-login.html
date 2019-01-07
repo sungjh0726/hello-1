@@ -5,37 +5,45 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Test Login</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
     <style>
         * {
             font-size: 32px;
         }
     </style>
+    <!-- <script src="login.js" /> -->
     <script>
+        $(window).on("load", console.debug('onload!!'));
+        $(document).ready(function () {
+            console.log("ready!");
+            $('#err').hide();
+            $('#userid').val('a');
+            $('#userpw').val('1');
+        });
+
         function checkLogin() {
-            var uid = get('userid'),
-                upw = get('userpw');
-            console.log(">>>>>>", uid, upw)
+                var uid = $('#userid').val(),
+                    upw = $('#userpw').val();
+                console.log(">>>>>>", uid, upw)
 
-            var frm = document.getElementById('frm'),
-                msg = document.getElementById('msg'),
-                err = document.getElementById('err');
-            if (uid === 'a' && upw === '1') {
-                frm.style.display = 'none';
-                msg.style.display = 'block';
-                err.style.display = 'none';
+                var frm = $('#frm'),
+                    msg = $('#msg'),
+                    err = $('#err');
 
-            } else {
-                err.style.display = 'block'; 
-                frm.style.display = 'block';
+                if (uid === 'a' && upw === '1') {
+                    frm.hide();
+                    msg.show();
+                    err.hide();
+
+                } else {
+                    err.show();
+                    frm.show();
+                }
+
+                return false;
             }
-
-            return false;
-        }
-
-        function get(id) {
-            return document.getElementById(id).value;
-        }
     </script>
+
 </head>
 <body>
     <form id="frm" onsubmit="return checkLogin()" method="post">
@@ -44,8 +52,12 @@
         <button>Sign-IN</button>
     </form>
 
-    <p id="msg" style="text-align:center; color: green; display: none;">로그인되셨습니다!!</p>
-    
-    <p id="err" style="text-align:center; color: green; display: none;">로그인실패!!</p>
+    <p id="msg" style="text-align:center; color: green; display: none;">로그인되셨습니다!!
+        <div>
+            <span id="spn">TTT</span>
+        </div>
+    </p>
+
+    <p id="err" style="text-align:center; color: green;">로그인실패!!</p>
 </body>
 </html>
