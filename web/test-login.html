@@ -10,6 +10,10 @@
         * {
             font-size: 32px;
         }
+
+        .content {
+            font-size: 16px;
+        }
     </style>
     <!-- <script src="login.js" /> -->
     <script>
@@ -19,33 +23,56 @@
             $('#err').hide();
             $('#userid').val('a');
             $('#userpw').val('1');
+
+            $('#get1').on("click", function(evt) {
+                console.log("evt>>", evt);
+                evt.preventDefault(); // 브라우저 기본 이벤트는 하지마!!
+                evt.stopPropagation(); // 상위 이벤트는 수행하지마!
+                getJson();
+            });
         });
 
         function checkLogin() {
-                var uid = $('#userid').val(),
-                    upw = $('#userpw').val();
-                console.log(">>>>>>", uid, upw)
+            var uid = $('#userid').val(),
+                upw = $('#userpw').val();
+            console.log(">>>>>>", uid, upw)
 
-                var frm = $('#frm'),
-                    msg = $('#msg'),
-                    err = $('#err');
+            var frm = $('#frm'),
+                msg = $('#msg'),
+                err = $('#err');
 
-                if (uid === 'a' && upw === '1') {
-                    frm.hide();
-                    msg.show();
-                    err.hide();
+            if (uid === 'a' && upw === '1') {
+                frm.hide();
+                msg.show();
+                err.hide();
 
-                } else {
-                    err.show();
-                    frm.show();
-                }
-
-                return false;
+            } else {
+                err.show();
+                frm.show();
             }
+
+            return false;
+        }
+
+        var URL = "http://berryservice.net:8080/Berry/g/areagroups/";
+        function getJson() {
+            $.get(URL).then(function (json) {
+                var content = JSON.stringify(json, null, "  ");
+                $("<h1>").text(json.areagroup.length).appendTo("body");
+                $("<pre class=\"content\">").html(content).appendTo("body");
+
+            }, function (err) {
+                console.error("Sorry, there was a problem!", err.status, err);
+            });
+        }
     </script>
 
 </head>
 <body>
+
+    <div id="test_div">
+        <button id="get1">Get 1</button>
+    </div>
     <form id="frm" onsubmit="return checkLogin()" method="post">
         <input type="text" id="userid" value="" placeholder="니 ID ...">
         <input type="password" id="userpw" value=""  placeholder="니 암호 ...">
