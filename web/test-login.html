@@ -29,7 +29,8 @@
                 evt.preventDefault(); // 브라우저 기본 이벤트는 하지마!!
                 evt.stopPropagation(); // 상위 이벤트는 수행하지마!
                 // getJson();
-                getJson2();
+                // getJson2();
+                test_ajax();
             });
         });
 
@@ -55,11 +56,31 @@
             return false;
         }
 
-        var URL = "http://berryservice.net:8080/Berry/g/areagroups/";
+        var URL = "http://berryservice.net:8080/Berry/g/tests/";
+
+        function test_ajax() {
+            $.ajax({
+                url: URL,
+                type: "GET"
+            }).done(function (json) {
+                var content = JSON.stringify(json, null, "  ");
+                $("<pre class=\"content\">").html(content).appendTo("body");
+
+            }).fail(function (xhr, status, errorThrown) {
+                // console.error("Sorry, there was a problem!", err.status, err);
+                console.error("Error>>", xhr.responseJSON);
+                var $err = $('#err');
+                $err.text(xhr.responseJSON.message);
+                $err.show();
+
+            }).always(function (xhr, status) {
+                console.log("The request is complete!");
+            });
+        }
 
         function getJson2() {
             $.ajax({
-                url: url,
+                url: URL,
                 type: "GET",
                 dataType: "json"
 
