@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -29,28 +30,21 @@
         var ICODE = 10;
         var URL = "http://berryservice.net:8080/Berry/g/tests/";
 
-        $(document).ready( function () {
+        $(document).ready(function () {
             setList();
 
-            $('#btn-add').on('click', function(evt) {
+            $('#btn-add').on('click', function (evt) {
                 evt.preventDefault();
                 addTest();
             });
         });
 
         function delTest(id) {
-           $.ajax({
-                url: URL + id,
-                type: "DELETE"
-            }).done( function (json) {
-                console.log("delTest>>", json)
-                $('#' + id).remove();
-
-            }).fail(function (xhr, status, errorThrown) {
-                console.error("Sorry, there was a problem!", status);
-            }).always(function (xhr, status) {
-                console.log("The request is complete!");
-            }); 
+            sendAjax(URL + id, 'DELETE', null,
+                function (json) {
+                    $('#' + id).remove();
+                }
+            );
         }
 
         function addTest() {
@@ -62,59 +56,64 @@
                 alert("Input the name!!");
                 $name.focus();
                 return;
+                
             } else if (!icode) {
                 alert("Input the icode!!");
                 $icode.focus();
-                return; 
+                return;
             }
 
-            $.ajax({
-                url: URL,
-                data: { name: name, icode: icode },
-                type: "POST",
-                dataType: "json"
-
-            }).done( function (json) {
-                console.log("jjjjjjj>>", json)
-                appendTest(json.test.id, name, icode);
-                // var content = JSON.stringify(json, null, "  ");
-                // $("<pre class=\"content\">").html(content).appendTo("body");
-
-            }).fail(function (xhr, status, errorThrown) {
-                console.error("Sorry, there was a problem!", status);
-            }).always(function (xhr, status) {
-                console.log("The request is complete!");
-            });
-            
+            sendAjax(URL, 'POST', { name: name, icode: icode },
+                function (json) {
+                    console.log("jjjjjjj>>", json)
+                    appendTest(json.test.id, name, icode);
+                }
+            );
         }
 
         function setList() {
             console.log("------------------------- setList starting!!")
             var p = { cmd: "test-by-icode", icode: ICODE };
-            $.ajax({
-                url: URL,
-                type: "GET",
-                data: p,
-                dataType: "json"
+            sendAjax( URL, 'GET', p, 
+                        function (json) {
+                            var test = json.test;
+                            test.forEach(function (t) {
+                                appendTest(t.id, t.name, t.icode);
+                            });
+                            $('#cnt').text(test.length);
 
-            }).done(function (json) {
-                var test = json.test;
-                test.forEach(function (t) {
-                    appendTest(t.id, t.name, t.icode);
-                });
-                $('#cnt').text(test.length);
+                            $('a.btn-danger').on('click', function (evt) {
+                                evt.preventDefault();
+                                var $btnDel = $(evt.target);
+                                console.log(">>>>", $btnDel, $btnDel.data('id'));
+                                delTest($btnDel.data('id'));
+                            });
+                        }
+            );
+        }
 
-                $('a.btn-danger').on('click', function (evt) {
-                    evt.preventDefault();
-                    var $btnDel = $(evt.target);
-                    console.log(">>>>", $btnDel, $btnDel.data('id'));
-                    delTest( $btnDel.data('id') );
-                });
+        function sendAjax(url, type, data, fn) {
+            var options = {
+                url: url,
+                type: type
+            };
+
+            if (data) {
+                options.data = data;
+                options.dataType = "json"
+            }
+
+            $.ajax( options ).done(function (json) {
+                fn(json); //callback function!!
 
             }).fail(function (xhr, status, errorThrown) {
                 console.error("Sorry, there was a problem!", status);
             }).always(function (xhr, status) {
-                console.log("The request is complete!", URL + '?' + $.param(p));
+                var sentUrl = URL;
+                if (data)
+                    sentUrl += '?' + $.param(data);
+
+                console.log("The request is complete!", sentUrl);
             });
         }
 
@@ -140,6 +139,7 @@
         }
     </script>
 </head>
+
 <body>
     <div class="container">
 
@@ -151,7 +151,7 @@
                 <a href="#" class="btn btn-sm btn-danger">x</a>
                 <span class="badge badge-primary badge-pill">14</span>
             </button> -->
-            
+
         </div>
 
         <div class="my-3">
@@ -166,4 +166,5 @@
 
     </div>
 </body>
+
 </html>
