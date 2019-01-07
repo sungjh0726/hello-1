@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -24,16 +25,13 @@
             $('#userid').val('a');
             $('#userpw').val('1');
 
-            $('#get1').on("click", function(evt) {
+            $('#get1').on("click", function (evt) {
                 // console.log("evt>>", evt);
                 evt.preventDefault(); // 브라우저 기본 이벤트는 하지마!!
                 evt.stopPropagation(); // 상위 이벤트는 수행하지마!
                 // getJson();
                 // getJson2();
-                // test_ajax();
-                // test_ajax2();
-                // test_ajax_add();
-                test_ajax_del();
+                test_ajax();
             });
         });
 
@@ -59,76 +57,21 @@
             return false;
         }
 
-        var URL = "http://berryservice.net:8080/Berry/g/tests/";
-
-        function test_ajax_del() {
-            var test28_url = "http://berryservice.net:8080/Berry/g/tests/28";
-            $.ajax({
-                url: test28_url,
-                type: "DELETE"
-
-            }).done(function (json) {
-                var content = JSON.stringify(json, null, "  ");
-                $("<pre class=\"content\">").html(content).appendTo("body");
-
-            }).fail(function (xhr, status, errorThrown) {
-                console.error("Sorry, there was a problem!", status);
-            }).always(function (xhr, status) {
-                console.log("The request is complete!");
-            });
-        }
-        function test_ajax_add() {
-            $.ajax({
-                url: URL,
-                data: { name: "test333-1", icode: 3 },
-                type: "POST",
-                dataType: "json"
-
-            }).done(function (json) {
-                var content = JSON.stringify(json, null, "  ");
-                $("<pre class=\"content\">").html(content).appendTo("body");
-
-            }).fail(function (xhr, status, errorThrown) {
-                console.error("Sorry, there was a problem!", status);
-            }).always(function (xhr, status) {
-                console.log("The request is complete!");
-            });
-        }
-
-        function test_ajax2() {
-            var p = { cmd: "test-by-icode", icode: 3 };
-            $.ajax({
-                url: URL,
-                type: "GET",
-                data: p,
-                dataType: "json"
-
-            }).done(function (json) {
-                var content = JSON.stringify(json, null, "  ");
-                $("<pre class=\"content\">").html(content).appendTo("body");
-
-            }).fail(function (xhr, status, errorThrown) {
-                console.error("Sorry, there was a problem!", status);
-            }).always(function (xhr, status) {
-                console.log("The request is complete!", URL + '?' + $.param(p));
-            });
-        }
+        var URL = "http://berryservice.net:8080/Berry/g/tests/27";
 
         function test_ajax() {
             $.ajax({
                 url: URL,
-                type: "GET"
+                data: {test: {name: "test1111", icode:2} },
+                type: "PUT",
+                dataType: "json"
+
             }).done(function (json) {
                 var content = JSON.stringify(json, null, "  ");
                 $("<pre class=\"content\">").html(content).appendTo("body");
 
             }).fail(function (xhr, status, errorThrown) {
-                // console.error("Sorry, there was a problem!", err.status, err);
-                console.error("Error>>", xhr.responseJSON);
-                var $err = $('#err');
-                $err.text(xhr.responseJSON.message);
-                $err.show();
-
+                console.error("Sorry, there was a problem!", xhr.responseJSON);
             }).always(function (xhr, status) {
                 console.log("The request is complete!");
             });
@@ -152,7 +95,7 @@
         }
 
         function getJson3() {
-            $.get(URL).always( function (xhr, status) {
+            $.get(URL).always(function (xhr, status) {
                 console.log("The request is complete!", xhr, status);
                 if (status === 'success') {
                     var content = JSON.stringify(xhr, null, "  ");
@@ -178,6 +121,7 @@
     </script>
 
 </head>
+
 <body>
 
     <div id="test_div">
@@ -185,7 +129,7 @@
     </div>
     <form id="frm" onsubmit="return checkLogin()" method="post">
         <input type="text" id="userid" value="" placeholder="니 ID ...">
-        <input type="password" id="userpw" value=""  placeholder="니 암호 ...">
+        <input type="password" id="userpw" value="" placeholder="니 암호 ...">
         <button>Sign-IN</button>
     </form>
 
@@ -197,4 +141,5 @@
 
     <p id="err" style="text-align:center; color: green;">로그인실패!!</p>
 </body>
+
 </html>
