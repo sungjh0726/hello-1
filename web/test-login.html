@@ -25,10 +25,11 @@
             $('#userpw').val('1');
 
             $('#get1').on("click", function(evt) {
-                console.log("evt>>", evt);
+                // console.log("evt>>", evt);
                 evt.preventDefault(); // 브라우저 기본 이벤트는 하지마!!
                 evt.stopPropagation(); // 상위 이벤트는 수행하지마!
-                getJson();
+                // getJson();
+                getJson2();
             });
         });
 
@@ -55,6 +56,38 @@
         }
 
         var URL = "http://berryservice.net:8080/Berry/g/areagroups/";
+
+        function getJson2() {
+            $.ajax({
+                url: url,
+                type: "GET",
+                dataType: "json"
+
+            }).done(function (json) {
+                var content = JSON.stringify(json, null, "  ");
+                $("<pre class=\"content\">").html(content).appendTo("body");
+
+            }).fail(function (xhr, status, errorThrown) {
+                console.error("Sorry, there was a problem!", err.status, err);
+            }).always(function (xhr, status) {
+                console.log("The request is complete!");
+            });
+        }
+
+        function getJson3() {
+            $.get(URL).always( function (xhr, status) {
+                console.log("The request is complete!", xhr, status);
+                if (status === 'success') {
+                    var content = JSON.stringify(xhr, null, "  ");
+                    console.log("cccccc>>", content)
+                    $("<h1>").text(xhr.areagroup.length).appendTo("body");
+                    $("<pre class=\"content\">").html(content).appendTo("body");
+                } else {
+                    console.log(">>>", xhr.responseText, xhr.status)
+                }
+            });
+        }
+
         function getJson() {
             $.get(URL).then(function (json) {
                 var content = JSON.stringify(json, null, "  ");
