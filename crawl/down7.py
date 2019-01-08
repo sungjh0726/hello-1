@@ -2,6 +2,11 @@ from bs4 import BeautifulSoup
 import requests
 import urllib.parse as parse
 import os.path as path
+
+import sys
+# sys.path.insert(0, '/Users/jade/workspace/python/hello/ttt')
+sys.path.insert(0, '../ttt')
+
 import urls
 
 def getFileName(url) :
