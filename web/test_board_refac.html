@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 
 <head>
     <meta charset="UTF-8">
@@ -56,7 +56,7 @@
                 alert("Input the name!!");
                 $name.focus();
                 return;
-                
+
             } else if (!icode) {
                 alert("Input the icode!!");
                 $icode.focus();
@@ -81,13 +81,6 @@
                                 appendTest(t.id, t.name, t.icode);
                             });
                             $('#cnt').text(test.length);
-
-                            $('a.btn-danger').on('click', function (evt) {
-                                evt.preventDefault();
-                                var $btnDel = $(evt.target);
-                                console.log(">>>>", $btnDel, $btnDel.data('id'));
-                                delTest($btnDel.data('id'));
-                            });
                         }
             );
         }
@@ -103,11 +96,12 @@
                 options.dataType = "json"
             }
 
-            $.ajax( options ).done(function (json) {
+            $.ajax(options).done(function (json) {
                 fn(json); //callback function!!
 
             }).fail(function (xhr, status, errorThrown) {
                 console.error("Sorry, there was a problem!", status);
+
             }).always(function (xhr, status) {
                 var sentUrl = URL;
                 if (data)
@@ -131,11 +125,17 @@
             a.attr('data-id', id);
             a.appendTo(btn);
 
+            a.on('click', function (evt) {
+                evt.preventDefault();
+                var $btnDel = $(evt.target);
+                console.log(">>>>", $btnDel, $btnDel.data('id'));
+                delTest($btnDel.data('id'));
+            });
+
             var spn = $('<span>');
             spn.addClass('badge').addClass('badge-primary').addClass('badge-pill');
             spn.text(icode);
             spn.appendTo(btn);
-
         }
     </script>
 </head>
@@ -146,12 +146,6 @@
         <h1>Test Board (<small class="text-muted" id="cnt"></small>)</h1>
 
         <div class="list-group">
-            <!-- <button class="list-group-item list-group-item-action ptr">
-                Cras justo odio
-                <a href="#" class="btn btn-sm btn-danger">x</a>
-                <span class="badge badge-primary badge-pill">14</span>
-            </button> -->
-
         </div>
 
         <div class="my-3">
