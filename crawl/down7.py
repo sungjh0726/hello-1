@@ -23,6 +23,6 @@ if len(imgs) < 1:
 print("--------------------------------------")
 for img in imgs:
     src = img.get('src')
-    print("img>>", src)
+    print("img>>", src, parse.urlparse(src).hostname)
     with open("./images/" + getFileName(src), "wb") as file:
         file.write(requests.get(src).content)
