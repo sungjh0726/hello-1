@@ -2,6 +2,7 @@ from bs4 import BeautifulSoup
 import requests
 import urllib.parse as parse
 import os.path as path
+import urls
 
 def getFileName(url) :
     p = parse.urlparse(url).path
@@ -23,6 +24,6 @@ if len(imgs) < 1:
 print("--------------------------------------")
 for img in imgs:
     src = img.get('src')
-    print("img>>", src, parse.urlparse(src).hostname)
-    with open("./images/" + getFileName(src), "wb") as file:
+    print("img>>", src)
+    with open("./images/" + urls.getFilename(src), "wb") as file:
         file.write(requests.get(src).content)

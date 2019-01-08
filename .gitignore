@@ -4,5 +4,5 @@ hw_*
 p.py
 _*.py
 ttt
-web/images
-web/data
+crawl/images
+crawl/data

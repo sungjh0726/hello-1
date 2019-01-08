@@ -2,7 +2,6 @@ import urllib.parse as parse
 import os.path as path
 
 def getFilename(url):
-    print(">>", parse.urlparse(url).path)
     return path.basename(parse.urlparse(url).path)
 
 def getHostname(url, withProtocol = False):
