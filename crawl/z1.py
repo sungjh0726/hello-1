@@ -1,11 +1,13 @@
 from bs4 import BeautifulSoup
 import requests
 
-res = requests.get(
-    "https://search.daum.net/search?w=tot&q=%EB%A7%B9%EC%9C%A0%EB%82%98&DA=ATG&rtmaxcoll=1TH")
+# url = "https://blog.naver.com/korea_diary/221433346994"
+url = "https://blog.naver.com/PostView.nhn?blogId=korea_diary&logNo=221433346994&redirect=Dlog&widgetTypeCall=true&topReferer=https%3A%2F%2Fwww.naver.com%2F&directAccess=false"
+res = requests.get(url)
 soup = BeautifulSoup(res.text, 'html.parser')
 
-sel = "#profMainThumb_img_0 > a > img"
+# sel = "img"
+sel = "#SE-e3efce8c-f39b-4c97-9291-a933aa1763bd > div > div > a > img"
 
 imgs = soup.select(sel)
 print(imgs, len(imgs))
