@@ -1,6 +1,11 @@
 from bs4 import BeautifulSoup
 import requests
-import os.path.basename as basename
+import urllib.parse as parse
+import os.path as path
+
+def getFileName(url) :
+    p = parse.urlparse(url).path
+    return path.basename(p)
 
 url = "https://blog.naver.com/PostView.nhn?blogId=korea_diary&logNo=221433346994&redirect=Dlog&widgetTypeCall=true&topReferer=https%3A%2F%2Fwww.naver.com%2F&directAccess=false"
 res = requests.get(url)
@@ -18,6 +23,6 @@ if len(imgs) < 1:
 print("--------------------------------------")
 for img in imgs:
     src = img.get('src')
-    print("img>>", src, basename(src))
-
-# write to file
+    print("img>>", src)
+    with open("./images/" + getFileName(src), "wb") as file:
+        file.write(requests.get(src).content)
