@@ -2,16 +2,7 @@ from bs4 import BeautifulSoup
 import requests
 import urllib.parse as parse
 import os.path as path
-
-import sys
-# sys.path.insert(0, '/Users/jade/workspace/python/hello/ttt')
-sys.path.insert(0, '../ttt')
-
 import urls
-
-def getFileName(url) :
-    p = parse.urlparse(url).path
-    return path.basename(p)
 
 url = "https://blog.naver.com/PostView.nhn?blogId=korea_diary&logNo=221433346994&redirect=Dlog&widgetTypeCall=true&topReferer=https%3A%2F%2Fwww.naver.com%2F&directAccess=false"
 res = requests.get(url)
@@ -21,7 +12,7 @@ soup = BeautifulSoup(res.text, 'html.parser')
 sel = "img.se-image-resource"
 
 imgs = soup.select(sel)
-print(imgs, len(imgs))
+# print(imgs, len(imgs))
 
 if len(imgs) < 1:
     exit()
