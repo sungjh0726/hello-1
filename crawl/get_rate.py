@@ -17,9 +17,9 @@ for tr in trs:
     if (len(tds) < 4):
         continue
 
-    tit = tds[0]
+    tit = tds[0].text
     rate = tds[1]
     diff = toFloat(tds[2]) - toFloat(tds[3])
 
-    print("{}, {}, {}".format(tit.text.strip(), rate.text, diff))
+    print("{}, {}, {}".format(tit.strip(), rate.text, diff))
     
