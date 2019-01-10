@@ -1,3 +1,4 @@
+import os
 import urllib.parse as parse
 import os.path as path
 
@@ -22,9 +23,11 @@ def q2j(s):
         print("'{}':'{}',".format(pp[0], pp[1]))
 
 if __name__ == '__main__':
-    str = "Email=shjeon77&Password=x8whq7Kjq5wPNpD&Action=1&ReturnUrl=&ReturnUrl_pop=&SecureLogin=false&snsUserId=0&snsType=0&snsAppId=1"
+    str = "profile=minimalmonthviewgridv2&abvariant=FLUX787_QuoteBlacklist:a|FLUX_GDT2791_SendPriceTraceToMixpanel:b|rts_wta_shadowtraffic:b&apikey=c32d1a225f454c49a44ddec56ddc6910"
     q2j(str)
 
+
+    # print(os.name)
 
     # url = "https://blog.naver.com/jeonseongho/1212.jpg"
     # print("filename=", getFilename(url))
