@@ -1,11 +1,17 @@
 from bs4 import BeautifulSoup
 import requests
 
-url = "https://www.skyscanner.net/transport/flights/sela/syda?adults=1&children=0&adultsv2=1&childrenv2=&infants=0&cabinclass=economy&rtn=0&preferdirects=false&outboundaltsenabled=false&inboundaltsenabled=false&oym=1902&selectedoday=01"
+url = "https://www.melon.com/chart/index.htm"
 
-selector = "table.bpk-calendar-grid-2GXun tbody tr"
+selector = "span.cnt"
 
-html = requests.get(url).text
+headers = {
+    "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36"
+}
+
+html = requests.get(url, headers=headers).text
+
+print(html)
 
 with open("./data/just_test.html", mode="w") as file:
     file.write(html)

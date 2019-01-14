@@ -35,6 +35,9 @@ headers = {
 req = requests.post(url, params=params, headers=headers)
 # req = requests.post(url, data=params, headers=headers)
 print(req.url)
+
+import urllib
+print(urllib.parse.qu)
 html = req.text
 # print(html)
 soup = BeautifulSoup(html, 'html.parser')
