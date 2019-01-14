@@ -1,4 +1,4 @@
-
+import json
 dic = {}
 
 # html 파싱 데이터
@@ -23,3 +23,5 @@ bbbJson.update({'others': 'pppppppp'})
 
 print(dic[songno])
 print(dic)
+
+j = json.loads(dic)
