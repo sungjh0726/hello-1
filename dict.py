@@ -11,6 +11,11 @@ dic[dic1['name']] = dic1
 print(dic)
 
 # 찾기
-dic['bbb']['like'] = 1
+bbbJson = dic['bbb']
+
+# 수정 및 추가하기
+bbbJson['like'] = 1
+bbbJson.update({'others': 'pppppppp'})
 
 print(dic['bbb'])
+print(dic)
