@@ -14,7 +14,8 @@ print(dic)
 bbbJson = dic['bbb']
 
 # 못찾을 경우 (키 존재여부 체크하기)
-if (dic.get('ccc')):
+# if (dic.get('ccc')):           # 또는 
+if 'ccc' in dic:
     bbbJson2 = dic['ccc']
 
 # 수정 및 추가하기
