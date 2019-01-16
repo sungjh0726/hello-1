@@ -2,6 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 from pprint import pprint
 import json
+import csv, codecs
 
 url = "https://www.melon.com/chart/index.htm"
 
@@ -43,5 +44,32 @@ for j in jsonData['contsLike']:
     songDic = dic[key]
     songDic['likecnt'] = j['SUMMCNT']
 
-dic = sorted(dic.items(), key=lambda d: d[1]['ranking'])
-pprint(dic)
+result = sorted(dic.items(), key=lambda d: d[1]['ranking'])
+# pprint(dic)
+
+sortLike = sorted(dic.items(), key=lambda d: d[1]['likecnt'])
+leastLike = sortLike[0][1]['likecnt']
+
+# pprint(leastLike)
+
+with codecs.open('./data/meltop100.csv', 'w', 'utf-8') as ff:
+    writer = csv.writer(ff, delimiter=',', quotechar='"')
+    writer.writerow(['랭킹', '제목', '가수', '좋아요', '좋아요차이'])
+
+    likesum = 0
+    diffsum = 0
+    for i in result:
+        song = i[1]
+        rank = song['ranking']
+        title = song['title']
+        singer = song['singer']
+        likecnt = song['likecnt']
+        likeDiff = likecnt - leastLike
+        likesum = likesum + likecnt
+        diffsum = diffsum + likeDiff
+        l = [rank, title, singer, likecnt, likeDiff]
+        writer.writerow(l)
+        # print(song)
+
+    writer.writerow(['계', '', '', likesum, diffsum])
+
