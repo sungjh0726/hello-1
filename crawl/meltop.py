@@ -47,8 +47,9 @@ for j in jsonData['contsLike']:
 result = sorted(dic.items(), key=lambda d: d[1]['ranking'])
 # pprint(dic)
 
-sortLike = sorted(dic.items(), key=lambda d: d[1]['likecnt'])
-leastLike = sortLike[0][1]['likecnt']
+# sortLike = sorted(dic.items(), key=lambda d: d[1]['likecnt'])
+# leastLike = sortLike[0][1]['likecnt']
+leastLike = min(x[1]['likecnt'] for x in dic.items())
 
 # pprint(leastLike)
 
