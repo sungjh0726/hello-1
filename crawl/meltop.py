@@ -28,7 +28,9 @@ for tr in trs:
     # singers = tr.select('div.ellipsis.rank02 a')
     singers = tr.select('div.ellipsis.rank02 span a')
     singer = ",".join([a.text for a in singers])
+
     dic[song_no] = {'ranking': int(ranking), 'title':title, 'singer': singer}
+
 
 likeUrl = "https://www.melon.com/commonlike/getSongLike.json"
 likeParams = {

@@ -1,19 +1,37 @@
+import csv, codecs
 import openpyxl
 from pprint import pprint
+import datetime
 
-file = "./test.xlsx"
-book = openpyxl.load_workbook(file)
-sheet = book.worksheets[0]
+csvFile = codecs.open("../crawl/data/meltop100.csv", "r", "utf-8")
+reader = csv.reader(csvFile, delimiter=',', quotechar='"')
 
-data = []
-for r in sheet.rows:
-    data.append([ r[0].value, r[1].value, r[3].value ])
+book = openpyxl.Workbook()
+sheet1 = book.active
 
-del data[0]
-del data[0]
+sheet1.title = "첫번째 시트"
 
-data = sorted(data, key=lambda x: x[2], reverse=True)
-pprint(data)
+for i, row in enumerate(reader):
+    # print(i, row)
+    for j, col in enumerate(row):
+        tcell = sheet1.cell(row=(i+1), column=j+1)
+        if i > 0 and (j == 0 or j > 2) and col.isnumeric():
+            print(j, col)
+            tcell.number_format
+            tcell.value = int(col)
+        else:
+            tcell.value = col
 
-last = len(data) - 1
-print(data[last][2] / 3)
+sheet2 = book.create_sheet()
+sheet2.title = "두번째 시트"
+sheet2['A1'] = datetime.datetime.now()
+sheet2['A2'] = datetime.date.today()
+sheet2['B1'] = '하하하'
+
+tmpCell = sheet2['C1']
+tmpCell.font = openpyxl.styles.Font(size=14, color='FF0000')
+tmpCell.number_format
+tmpCell.value = 12345
+
+book.save("t1.xlsx")
+exit()
