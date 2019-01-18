@@ -24,4 +24,40 @@ data = {
     ]
 }
 
-print(data)
+# print(data.items())
+# {
+#     A: 00,
+#     B: 00,
+#     C:9
+# }
+
+result = {}
+for k, dlist in data.items():
+    sum = 0
+    for i, l in enumerate(dlist):
+        sum += l[i] + l[-i - 1]
+    result[k] = sum
+
+# print(result)
+
+mk = ''
+
+# mk = min(result, key=lambda x: result[x])
+mk = min(result.items(), key=lambda x: x[1])[0]
+
+# mv = min(result.values())
+# print(mv)
+# for k, v in result.items():
+#     if v == mv:
+#         mk = k
+#         break
+
+# mv = 100000000000
+# for k, v in result.items():
+#     if v < mv:
+#         mv = v
+#         mk = k
+#     print(k, v, mk, mv)
+
+# print("-----------------------------------")
+print("result is", mk)
