@@ -27,3 +27,37 @@ data = {
 }
 
 pprint(data)
+
+sum1 = 0
+sum2 = 0
+for i, l in enumerate(data['C']):
+    print(i, l, l[i], l[-i -1], l[i] + l[-i - 1])
+    sum1 += l[i] + l[-i - 1]
+
+print("sum1>>", sum1)
+
+result = {}
+sumr = {}
+for k, v in data.items():
+    sums = sum([l[i] + l[-i - 1] for i, l in enumerate(v)])
+    sumr[k] = sums
+    result[sums] = k
+    print(">>", sums)
+
+print(result)
+# print("min>>", result.values(), min(result.values()))
+print("min>>", result.keys(), min(result.keys()))
+
+print(result[min(result.keys())])
+print("-----------------------------------------------")
+
+r = sorted(sumr.items(), key=lambda x: x[1])
+print(r, "::", r[0][0])
+
+minx = min(sumr, key=lambda x: sumr[x])
+miny = min(sumr.items(), key=lambda y: y[1])[0]
+print("minx=", minx, miny)
+
+print("-----------------------------------------------", sumr)
+q = dict((v, k) for k, v in sumr.items())
+print(q)
